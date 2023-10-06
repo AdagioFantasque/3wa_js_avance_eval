@@ -55,12 +55,12 @@ async function displayCinemas() {
       const sortedCinemas = cinemas.sort((a, b) => {
         const distanceA = haversine(
           [userLocation.latitude, userLocation.longitude],
-          [parseFloat(a.fields.coordonnees[0]), parseFloat(a.fields.coordonnees[1])]
+          [parseFloat(a.fields.latitude), parseFloat(a.fields.longitude)]
         );
   
         const distanceB = haversine(
           [userLocation.latitude, userLocation.longitude],
-          [parseFloat(b.fields.coordonnees[0]), parseFloat(b.fields.coordonnees[1])]
+          [parseFloat(b.fields.latitude), parseFloat(b.fields.longitude)]
         );
   
         return distanceA - distanceB;
@@ -70,7 +70,7 @@ async function displayCinemas() {
       sortedCinemas.forEach(cinema => {
         const distance = haversine(
           [userLocation.latitude, userLocation.longitude],
-          [parseFloat(cinema.fields.coordonnees[0]), parseFloat(cinema.fields.coordonnees[1])]
+          [parseFloat(cinema.fields.latitude), parseFloat(cinema.fields.longitude)]
         );
   
         const cinemaItem = document.createElement('li');
