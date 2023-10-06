@@ -66,11 +66,10 @@ let currentPage = 1;
 
 
 // Afficher les cinémas
-async function displayCinemas() {
+async function displayCinemas(currentPage) {
 
     const resultsPerPage = 20;  // Nombre de résultats par page    
     const apiCinemas = new ApiCinemas();
-
 
     try {
 
@@ -143,4 +142,4 @@ async function displayCinemas() {
 }
 
 // Appeler la fonction pour afficher les cinémas au chargement de la page
-displayCinemas();
+displayCinemas(currentPage);
