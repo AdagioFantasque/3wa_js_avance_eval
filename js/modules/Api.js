@@ -1,8 +1,8 @@
 class ApiCinemas {
-    #apiUrl = 'https://data.culture.gouv.fr/api/records/1.0/search/?dataset=etablissements-cinematographiques';
+    apiUrl = 'https://data.culture.gouv.fr/api/records/1.0/search/?dataset=etablissements-cinematographiques';
 
     constructor() {
-      this.#apiUrl = apiUrl;
+      this.apiUrl = this.apiUrl;
     }
   
     async fetchCinemas() {
@@ -30,4 +30,3 @@ class ApiCinemas {
   }
   
   export default ApiCinemas;
-  
