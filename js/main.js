@@ -43,44 +43,49 @@ function sortBySeats(cinemas) {
 
 // Afficher les cinémas
 async function displayCinemas() {
-    const apiCinemas = new ApiCinemas();
-  
-    try {
-      const cinemas = await apiCinemas.fetchCinemas();
-  
-      // Récupérer la géolocalisation de l'utilisateur
-      const userLocation = await getUserLocation();
-  
-      // Calculer et afficher la distance pour chaque cinéma
-      const sortedCinemas = cinemas.sort((a, b) => {
-        const distanceA = haversine(
-          [userLocation.latitude, userLocation.longitude],
-          [parseFloat(a.fields.latitude), parseFloat(a.fields.longitude)]
-        );
-  
-        const distanceB = haversine(
-          [userLocation.latitude, userLocation.longitude],
-          [parseFloat(b.fields.latitude), parseFloat(b.fields.longitude)]
-        );
-  
-        return distanceA - distanceB;
-      });
-  
-      const cinemaList = document.getElementById('cinema-list');
-      sortedCinemas.forEach(cinema => {
-        const distance = haversine(
-          [userLocation.latitude, userLocation.longitude],
-          [parseFloat(cinema.fields.latitude), parseFloat(cinema.fields.longitude)]
-        );
-  
-        const cinemaItem = document.createElement('li');
-        cinemaItem.textContent = `${cinema.fields.etablissement} - ${cinema.fields.adresse}, ${cinema.fields.commune} (${cinema.fields.nbr_de_fauteuils} fauteuils) - Distance : ${distance.toFixed(2)} km`;
-        cinemaList.appendChild(cinemaItem);
-      });
-    } catch (error) {
-      console.error('Erreur lors de la récupération des cinémas :', error);
-    }
+  const apiCinemas = new ApiCinemas();
+  try {
+    const cinemas = await apiCinemas.fetchCinemas();
+    
+    console.log(cinemas);
+
+    // Récupérer la géolocalisation de l'utilisateur
+    const userLocation = await getUserLocation();
+
+    // Calculer et afficher la distance pour chaque cinéma
+    const sortedCinemas = cinemas.sort((a, b) => {
+      const distanceA = haversine(
+        [userLocation.latitude, userLocation.longitude],
+        [parseFloat(a.coordinates[0]), parseFloat(a.coordinates[1])]
+      );
+
+      const distanceB = haversine(
+        [userLocation.latitude, userLocation.longitude],
+        [parseFloat(b.coordinates[0]), parseFloat(b.coordinates[1])]
+      );
+
+      return distanceA - distanceB;
+    });
+
+    const cinemaList = document.getElementById('cinema-list');
+    sortedCinemas.forEach(cinema => {
+      const distance = haversine(
+        [userLocation.latitude, userLocation.longitude],
+        [parseFloat(cinema.coordinates[0]), parseFloat(cinema.coordinates[1])]
+      );
+
+      const cinemaItem = document.createElement('li');
+      cinemaItem.textContent = `${cinema.name} - ${cinema.adress}, ${cinema.city} (${cinema.seats} fauteuils) - Distance : ${distance.toFixed(2)} km`;
+      cinemaList.appendChild(cinemaItem);
+    });
+  } catch (error) {
+    console.error('Erreur lors de la récupération des cinémas :', error);
   }
+}
+
+// Appeler la fonction pour afficher les cinémas au chargement de la page
+displayCinemas();
+
 
 // Récupérer la géolocalisation de l'utilisateur
   async function getUserLocation() {
@@ -101,7 +106,3 @@ async function displayCinemas() {
       }
     });
   }
-  
-  
-  // Afficher les cinémas au chargement de la page
-  displayCinemas();

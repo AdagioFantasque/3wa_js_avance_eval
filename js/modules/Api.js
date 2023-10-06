@@ -19,7 +19,8 @@ class ApiCinemas {
             name: cinema.nom,
             address: cinema.adresse,
             city: cinema.commune,
-            seats: cinema.fauteuils
+            seats: cinema.fauteuils,
+            coordinates : cinema.geolocalisation
           };
         });
       } catch (error) {
